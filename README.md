@@ -12,7 +12,7 @@ Besides changing the style, I added a link in the top menu to the [Database Sear
 
 # Installation
 
-1. Clone TVV:
+1. Clone TVV:  
   `git clone https://github.com/tpkemme/TVV.git vagrant-local`
 2. Navigate to clone directory:  
   `cd vagrant-local`
