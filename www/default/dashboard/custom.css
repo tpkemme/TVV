@@ -11,13 +11,9 @@
      overflow-x: auto;
  }
 
-
- .sites {
-   display: table;
-   max-height: 100%;
-   overflow-y: auto;
-   overflow-x: auto;
- }
+ /**
+  * Style overrides
+  */
 
  .btn-primary {
    background-color: #1171A3;
@@ -118,3 +114,48 @@
    opacity: 0.5;
    filter: alpha(opacity=50);
  }
+
+ body{
+   color: white;
+   background-color: #333333;
+ }
+
+.sidebar {
+    background-color: #2a2a2a;
+}
+
+.table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
+    background-color: #1a1a1a !important;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: #222222;
+}
+
+.red{
+  color: #ee0000;
+}
+
+.code{
+  background-color: lightgrey;
+}
+
+.table > thead > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > th,
+.table > tbody > tr > td,
+.table > tfoot > tr > th,
+.table > tfoot > tr > td,
+.table > thead > tr > th,
+.table > tbody + tbody,
+.table-bordered,
+.table-bordered > thead > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > th,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > th,
+.table-bordered > tfoot > tr > td,
+legend,
+.sidebar{
+  border-color: #444 !important;
+}

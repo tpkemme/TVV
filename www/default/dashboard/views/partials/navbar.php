@@ -30,13 +30,13 @@
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a href="/database-admin/" target="_blank">phpMyAdmin</a></li>
-							<li><a href="/Search-Replace-DB-master/" >Search Replace DB</a></li>
-							<li><a href="/memcached-admin/" target="_blank">phpMemcachedAdmin</a></li>
-							<li><a href="/opcache-status/opcache.php" target="_blank">Opcache Status</a></li>
-							<li><a href="/webgrind/" target="_blank">Webgrind</a></li>
-							<li><a href="/phpinfo/" target="_blank">PHP Info</a></li>
-							<li><a href="//vvv.dev:1080/" target="_blank">Mailcatcher</a></li>
+							<li><a href="/database-admin/" >phpMyAdmin</a></li>
+							<li><a href="/Search-Replace-DB-master/" >Search And Replace DB</a></li>
+							<li><a href="/memcached-admin/" >phpMemcachedAdmin</a></li>
+							<li><a href="/opcache-status/opcache.php" >Opcache Status</a></li>
+							<li><a href="/webgrind/" >Webgrind</a></li>
+							<li><a href="/phpinfo/" >PHP Info</a></li>
+							<li><a href="//vvv.dev:1080/" >Mailcatcher</a></li>
 						</ul>
 					</li>
 					<li class="dropdown">
