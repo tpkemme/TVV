@@ -12,7 +12,7 @@
  }
 
  /**
-  * Style overrides
+  * Colors
   */
 
  .btn-primary {
@@ -36,7 +36,7 @@
  }
 
  .btn-default {
-   color: #fff;
+   color: aliceblue;
    background-color: #333;
  }
 
@@ -96,6 +96,56 @@
    color: #843534;
  }
 
+ .red{
+   color: firebrick;
+ }
+
+ .code{
+   background-color: lightgrey;
+ }
+
+  .line{
+   color: palegreen;
+  }
+
+  body{
+    color: aliceblue;
+    background-color: #333333;
+  }
+
+  .error-type{
+    color: salmon;
+  }
+
+  .in-file {
+    font-weight: bold;
+    color: aliceblue;
+  }
+
+  .time{
+    color: paleturquoise;
+  }
+
+ .sidebar {
+     background-color: #2a2a2a;
+ }
+
+ .table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
+     background-color: #1a1a1a !important;
+ }
+
+ .table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+     background-color: #2a2a2a;
+ }
+
+ .gitter, .github-link, .page-header, .table > thead > tr > th, .table > thead > tr > td, .table > tbody > tr > th, .table > tbody > tr > td, .table > tfoot > tr > th, .table > tfoot > tr > td, .table > thead > tr > th, .table > tbody + tbody, .table-bordered, .table-bordered > thead > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > tfoot > tr > td, legend, .sidebar {
+     border-color: #1a1a1a !important;
+     text-shadow: rgba(211,211,211,0.5) 0 0 10px;
+ }
+
+/**
+ * Misc. Style Overrides
+ */
  .close {
    float: right;
    font-size: 21px;
@@ -114,48 +164,3 @@
    opacity: 0.5;
    filter: alpha(opacity=50);
  }
-
- body{
-   color: white;
-   background-color: #333333;
- }
-
-.sidebar {
-    background-color: #2a2a2a;
-}
-
-.table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
-    background-color: #1a1a1a !important;
-}
-
-.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
-    background-color: #222222;
-}
-
-.red{
-  color: #ee0000;
-}
-
-.code{
-  background-color: lightgrey;
-}
-
-.table > thead > tr > th,
-.table > thead > tr > td,
-.table > tbody > tr > th,
-.table > tbody > tr > td,
-.table > tfoot > tr > th,
-.table > tfoot > tr > td,
-.table > thead > tr > th,
-.table > tbody + tbody,
-.table-bordered,
-.table-bordered > thead > tr > th,
-.table-bordered > thead > tr > td,
-.table-bordered > tbody > tr > th,
-.table-bordered > tbody > tr > td,
-.table-bordered > tfoot > tr > th,
-.table-bordered > tfoot > tr > td,
-legend,
-.sidebar{
-  border-color: #444 !important;
-}
