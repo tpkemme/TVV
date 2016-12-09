@@ -1,0 +1,32 @@
+{
+  "sample": {
+    "themes": [
+      {
+      }
+    ],
+    "mu_plugins": [
+      {
+      }
+    ],
+    "plugins": [
+      {
+        "location": "https://github.com/deliciousbrains/wp-migrate-db.git",
+        "force": true,
+        "activate": true,
+        "activate_network": true
+      },
+      {
+        "location": "https://github.com/johnbillion/user-switching.git",
+        "force": true,
+        "activate": true,
+        "activate_network": true
+      }
+    ],
+    "options": [
+    ],
+    "demo_content": [
+    ],
+    "defines": [
+    ]
+  }
+}

@@ -20,7 +20,7 @@ $branch = shell_exec( 'cd ' . VVV_WEB_ROOT . '/default/dashboard  && git rev-par
 ?>
 
 	<div class="page-top">
-		<h1 class="page-header"><i class="fa fa-tachometer"></i> VVV Dashboard
+		<h1 class="page-header"><i class="fa fa-tachometer"></i> TVV Dashboard for tVagrant
 
 		</h1>
 
