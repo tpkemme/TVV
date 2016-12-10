@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/topdown/VVV-Dashboard
 	branch = master
-	commit = 476ed4dc7fdc46c79958fe84678522c53c1c25ee
-	parent = 21d6e0e4ec095ea84a5482c19842c76e1a010109
+	commit = 3dd8f66ef3d6a0fd3ceb7a0f38123e870606195e
+	parent = fe5c0d7a228ee0e34c519e098113bcc0eb3080d2
 	cmdver = 0.3.0
