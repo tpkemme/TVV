@@ -1,14 +1,8 @@
     /**
-     * Custom styles for VVV dashboard
+     * Custom styles for TVV dashboard
+     * @since    1.0.0
+     * @version  1.0.0
      */
-
-    /**
-     * No scrolling for hosts box
-     */
-    .sites {
-        max-height: 100%;
-        overflow: hidden;
-    }
 
     /**
      * Colors
@@ -52,8 +46,15 @@
         border-color: #cc1466;
     }
 
+    input, button {
+        border-color: #40c2ac !important;
+        border-radius: 3px;
+        color: #aaa !important;
+        background: #222 !important;
+    }
+
     /**
-     * Alert styles
+     * Alerts, Warnings, Errors
      */
     .alert-success {
         background-color: rgba(27, 29, 26, 0.6);
@@ -144,6 +145,38 @@
         text-transform: uppercase;
     }
 
+    .error-type{
+        color: #c7254e;
+    }
+
+    /**
+     * Header & Navigation Styles
+     */
+    .page-header .fa {
+        color: #5305c7 !important;
+    }
+
+    h1.page-header {
+        color: #999999;
+        border: none;
+    }
+
+    .navbar.navbar-inverse.navbar-fixed-top {
+        background-color: #151515;
+    }
+
+    .navbar-nav > li > .dropdown-menu {
+        background-color: #353535;
+    }
+
+    /**
+     * Body styles
+     */
+    body{
+        color: #999999;
+        background-color: #222222;
+    }
+
     code{
         padding: 2px 4px;
         font-size: 90%;
@@ -160,13 +193,8 @@
         color: #39bb4b;
     }
 
-    body{
-        color: #999999;
-        background-color: #222222;
-    }
-
-    .error-type{
-        color: #c7254e;
+    .time{
+        color: #6b4ae2;
     }
 
     .in-file {
@@ -174,44 +202,12 @@
         color: #dcd45d;
     }
 
-    .time{
-        color: #6b4ae2;
-    }
-
     /**
-     *  Sidebar styles
+     * No scrolling for sites/hosts box
      */
-    .sidebar {
-        background-color: #1a1a1a;
-    }
-
-    .sidebar input.btn {
-        margin: 6px 5px;
-        width: 95px;
-    }
-
-    p.sidebar-title, .page-top {
-        border-bottom-color: #40c2ac;
-    }
-
-    /**
-     * Header Styles
-     */
-    .navbar.navbar-inverse.navbar-fixed-top {
-        background-color: #151515;
-    }
-
-    .page-header .fa {
-        color: #5305c7 !important;
-    }
-
-    h1.page-header {
-        color: #999999;
-        border: none;
-    }
-
-    .sidebar ul.nav {
-        padding: 5px 10px;
+    .sites {
+        max-height: 100%;
+        overflow: hidden;
     }
 
     /**
@@ -246,6 +242,30 @@
         color: #42cab3;
     }
 
+    a:hover{
+        color: #08f7db;
+    }
+
+    /**
+     *  Sidebar styles
+     */
+    .sidebar {
+        background-color: #1a1a1a;
+    }
+
+    .sidebar input.btn {
+        margin: 6px 5px;
+        width: 95px;
+    }
+
+    p.sidebar-title, .page-top {
+        border-bottom-color: #40c2ac;
+    }
+
+    .sidebar ul.nav {
+        padding: 5px 10px;
+    }
+
     /**
     * Misc. Style Overrides
     */
@@ -266,13 +286,6 @@
         cursor: pointer;
         opacity: 0.5;
         filter: alpha(opacity=50);
-    }
-
-    input, button {
-        border-color: #40c2ac !important;
-        border-radius: 3px;
-        color: #aaa !important;
-        background: #222 !important;
     }
 
     /**

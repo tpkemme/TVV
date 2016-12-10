@@ -1,13 +1,5 @@
 {
-  "sample": {
-    "themes": [
-      {
-      }
-    ],
-    "mu_plugins": [
-      {
-      }
-    ],
+  "tvv": {
     "plugins": [
       {
         "location": "https://github.com/deliciousbrains/wp-migrate-db.git",
@@ -21,12 +13,6 @@
         "activate": true,
         "activate_network": true
       }
-    ],
-    "options": [
-    ],
-    "demo_content": [
-    ],
-    "defines": [
     ]
   }
 }
