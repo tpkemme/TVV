@@ -1,5 +1,7 @@
 # TVV: Tyler's Varying Vagrant Vagrants Variant
 
+![image](https://raw.githubusercontent.com/tpkemme/tvv/screenshots/tvv.gif
+
 ## [CHANGELOG](./CHANGELOG.md)
 
 ## Version 0.1.0
