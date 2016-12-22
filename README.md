@@ -1,6 +1,6 @@
 # TVV: Tyler's Varying Vagrant Vagrants Variant
 
-![image](https://raw.githubusercontent.com/tpkemme/TVV/tvv/tvv.gif)
+![image](http://gifyu.com/images/tvv.gif)
 
 ## [CHANGELOG](./CHANGELOG.md)
 
@@ -16,13 +16,11 @@ This is a variant of [Varying Vagrant Vagrants](https://github.com/Varying-Vagra
 
 3. Install vagrant-hostsupdater and vagrant-triggers
 
-        vagrant plugin install vagrant-hostsupdater
-        vagrant plugin install vagrant-triggers
+        vagrant plugin install vagrant-hostsupdater && vagrant plugin install vagrant-triggers
 
 1. Clone TVV into your home folder: 
  
-        cd ~
-        git clone https://github.com/tpkemme/TVV.git tvagrant
+        cd ~ && git clone https://github.com/tpkemme/TVV.git tvagrant
 
 2. Navigate to cloned directory:  
     
@@ -55,7 +53,7 @@ Although this Search and Replace plugin is top notch, it's important to note tha
 
 ### Updating VVV
 
-Because TVV is a fork of VVV containing a git-subrepo of the VVV Dashboard, you can use TVV as a replacement for VVV while still receiving updates for both repositories.  Pulling upstream updates from VVV into TVV is very simple.  First you'll need to add the original VVV repository as an upstream source.  You'll only need to do these two steps the first time.
+Because TVV is a fork of VVV containing a git-subrepo of the VVV Dashboard, you can use TVV as a replacement for VVV while still receiving updates for both repositories.  Pulling upstream updates from VVV into TVV is very simple.  First you'll need to add the original VVV repository as an upstream source.  You'll only need to do step one and two the first time.
 
 1. Navigate to the TVV directory you previously cloned.
 
@@ -66,7 +64,7 @@ Because TVV is a fork of VVV containing a git-subrepo of the VVV Dashboard, you 
         git remote add upstream https://github.com/varying-vagrant-vagrants/vvv.git
 
 
-That was easy!  Now you can update VVV whenever you would like using a single command:
+3. Pull updates from remote repo (in this case, the master branch)
 
     git pull upstream master
 
