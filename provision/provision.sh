@@ -38,9 +38,9 @@ apt_package_check_list=(
   php7.0-dev
 
   # Extra PHP modules that we find useful
-  php-imagick
-  php-memcache
   php-pear
+  php7.0-imagick
+  php7.0-memcache
   php7.0-bcmath
   php7.0-curl
   php7.0-gd
@@ -51,6 +51,7 @@ apt_package_check_list=(
   php7.0-json
   php7.0-soap
   php7.0-ssh2
+  php7.0-xdebug
   php7.0-xml
   php7.0-zip
 
@@ -107,7 +108,7 @@ network_detection() {
   # Make an HTTP request to google.com to determine if outside access is available
   # to us. If 3 attempts with a timeout of 5 seconds are not successful, then we'll
   # skip a few things further in provisioning rather than create a bunch of errors.
-  if [[ "$(wget --tries=3 --timeout=5 --spider http://google.com 2>&1 | grep 'connected')" ]]; then
+  if [[ "$(wget --tries=3 --timeout=5 --spider --recursive --level=2 http://google.com 2>&1 | grep 'connected')" ]]; then
     echo "Network connection detected..."
     ping_result="Connected"
   else
@@ -304,33 +305,6 @@ tools_install() {
   npm install -g npm
   npm install -g npm-check-updates
 
-  # Xdebug
-  #
-  # The version of Xdebug 2.4.0 that is available for our Ubuntu installation
-  # is not compatible with PHP 7.0. We instead retrieve the source package and
-  # go through the manual installation steps.
-  if [[ -f /usr/lib/php/20151012/xdebug.so ]]; then
-      echo "Xdebug already installed"
-  else
-      echo "Installing Xdebug"
-      # Download and extract Xdebug.
-      curl -L -O --silent https://xdebug.org/files/xdebug-2.4.0.tgz
-      tar -xf xdebug-2.4.0.tgz
-      cd xdebug-2.4.0
-      # Create a build environment for Xdebug based on our PHP configuration.
-      phpize
-      # Complete configuration of the Xdebug build.
-      ./configure -q
-      # Build the Xdebug module for use with PHP.
-      make -s > /dev/null
-      # Install the module.
-      cp modules/xdebug.so /usr/lib/php/20151012/xdebug.so
-      # Clean up.
-      cd ..
-      rm -rf xdebug-2.4.0*
-      echo "Xdebug installed"
-  fi
-
   # ack-grep
   #
   # Install ack-rep directory from the version hosted at beyondgrep.com as the
@@ -423,6 +397,12 @@ nginx_setup() {
   # Copy nginx configuration from local
   cp "/srv/config/nginx-config/nginx.conf" "/etc/nginx/nginx.conf"
   cp "/srv/config/nginx-config/nginx-wp-common.conf" "/etc/nginx/nginx-wp-common.conf"
+
+  if [[ ! -d "/etc/nginx/upstreams" ]]; then
+    mkdir "/etc/nginx/upstreams/"
+  fi
+  cp "/srv/config/nginx-config/php7.0-upstream.conf" "/etc/nginx/upstreams/php70.conf"
+
   if [[ ! -d "/etc/nginx/custom-sites" ]]; then
     mkdir "/etc/nginx/custom-sites/"
   fi
@@ -435,19 +415,15 @@ nginx_setup() {
 
 phpfpm_setup() {
   # Copy php-fpm configuration from local
-  cp "/srv/config/php-config/php7-fpm.conf" "/etc/php/7.0/fpm/php-fpm.conf"
-  cp "/srv/config/php-config/www.conf" "/etc/php/7.0/fpm/pool.d/www.conf"
-  cp "/srv/config/php-config/php-custom.ini" "/etc/php/7.0/fpm/conf.d/php-custom.ini"
+  cp "/srv/config/php-config/php7.0-fpm.conf" "/etc/php/7.0/fpm/php-fpm.conf"
+  cp "/srv/config/php-config/php7.0-www.conf" "/etc/php/7.0/fpm/pool.d/www.conf"
+  cp "/srv/config/php-config/php7.0-custom.ini" "/etc/php/7.0/fpm/conf.d/php-custom.ini"
   cp "/srv/config/php-config/opcache.ini" "/etc/php/7.0/fpm/conf.d/opcache.ini"
   cp "/srv/config/php-config/xdebug.ini" "/etc/php/7.0/mods-available/xdebug.ini"
 
-  # Find the path to Xdebug and prepend it to xdebug.ini
-  XDEBUG_PATH=$( find /usr/lib/php/ -name 'xdebug.so' | head -1 )
-  sed -i "1izend_extension=\"$XDEBUG_PATH\"" "/etc/php/7.0/mods-available/xdebug.ini"
-
-  echo " * Copied /srv/config/php-config/php7-fpm.conf     to /etc/php/7.0/fpm/php-fpm.conf"
-  echo " * Copied /srv/config/php-config/www.conf          to /etc/php/7.0/fpm/pool.d/www.conf"
-  echo " * Copied /srv/config/php-config/php-custom.ini    to /etc/php/7.0/fpm/conf.d/php-custom.ini"
+  echo " * Copied /srv/config/php-config/php7.0-fpm.conf   to /etc/php/7.0/fpm/php-fpm.conf"
+  echo " * Copied /srv/config/php-config/php7.0-www.conf   to /etc/php/7.0/fpm/pool.d/www.conf"
+  echo " * Copied /srv/config/php-config/php7.0-custom.ini to /etc/php/7.0/fpm/conf.d/php-custom.ini"
   echo " * Copied /srv/config/php-config/opcache.ini       to /etc/php/7.0/fpm/conf.d/opcache.ini"
   echo " * Copied /srv/config/php-config/xdebug.ini        to /etc/php/7.0/mods-available/xdebug.ini"
 
@@ -583,60 +559,26 @@ services_restart() {
 
 wp_cli() {
   # WP-CLI Install
-  if [[ ! -d "/srv/www/wp-cli" ]]; then
+  local exists_wpcli
+
+  # Remove old wp-cli symlink, if it exists.
+  if [[ -L "/usr/local/bin/wp" ]]; then
+    echo "\nRemoving old wp-cli"
+    rm -f /usr/local/bin/wp
+  fi
+
+  exists_wpcli="$(which wp)"
+  if [[ "/usr/local/bin/wp" != "${exists_wpcli}" ]]; then
     echo -e "\nDownloading wp-cli, see http://wp-cli.org"
-    git clone "https://github.com/wp-cli/wp-cli.git" "/srv/www/wp-cli"
-    cd /srv/www/wp-cli
-    composer install
+    curl -sO https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli-nightly.phar
+    chmod +x wp-cli-nightly.phar
+    sudo mv wp-cli-nightly.phar /usr/local/bin/wp
+
+    # Install bash completions
+    curl -s https://raw.githubusercontent.com/wp-cli/wp-cli/master/utils/wp-completion.bash -o /srv/config/wp-cli/wp-completion.bash
   else
     echo -e "\nUpdating wp-cli..."
-    cd /srv/www/wp-cli
-    git pull --rebase origin master
-    composer update
-  fi
-  # Link `wp` to the `/usr/local/bin` directory
-  ln -sf "/srv/www/wp-cli/bin/wp" "/usr/local/bin/wp"
-}
-
-memcached_admin() {
-  # Download and extract phpMemcachedAdmin to provide a dashboard view and
-  # admin interface to the goings on of memcached when running
-  if [[ ! -d "/srv/www/default/memcached-admin" ]]; then
-    echo -e "\nDownloading phpMemcachedAdmin, see https://github.com/wp-cloud/phpmemcacheadmin"
-    cd /srv/www/default
-    wget -q -O phpmemcachedadmin.tar.gz "https://github.com/wp-cloud/phpmemcacheadmin/archive/1.2.2.1.tar.gz"
-    tar -xf phpmemcachedadmin.tar.gz
-    mv phpmemcacheadmin* memcached-admin
-    rm phpmemcachedadmin.tar.gz
-  else
-    echo "phpMemcachedAdmin already installed."
-  fi
-}
-
-opcached_status(){
-  # Checkout Opcache Status to provide a dashboard for viewing statistics
-  # about PHP's built in opcache.
-  if [[ ! -d "/srv/www/default/opcache-status" ]]; then
-    echo -e "\nDownloading Opcache Status, see https://github.com/rlerdorf/opcache-status/"
-    cd /srv/www/default
-    git clone "https://github.com/rlerdorf/opcache-status.git" opcache-status
-  else
-    echo -e "\nUpdating Opcache Status"
-    cd /srv/www/default/opcache-status
-    git pull --rebase origin master
-  fi
-}
-
-webgrind_install() {
-  # Webgrind install (for viewing callgrind/cachegrind files produced by
-  # xdebug profiler)
-  if [[ ! -d "/srv/www/default/webgrind" ]]; then
-    echo -e "\nDownloading webgrind, see https://github.com/michaelschiller/webgrind.git"
-    git clone "https://github.com/michaelschiller/webgrind.git" "/srv/www/default/webgrind"
-  else
-    echo -e "\nUpdating webgrind..."
-    cd /srv/www/default/webgrind
-    git pull --rebase origin master
+    wp --allow-root cli update --nightly --yes
   fi
 }
 
@@ -677,21 +619,6 @@ php_codesniff() {
   phpcs --config-set installed_paths ./CodeSniffer/Standards/WordPress/
   phpcs --config-set default_standard WordPress-Core
   phpcs -i
-}
-
-phpmyadmin_setup() {
-  # Download phpMyAdmin
-  if [[ ! -d /srv/www/default/database-admin ]]; then
-    echo "Downloading phpMyAdmin..."
-    cd /srv/www/default
-    wget -q -O phpmyadmin.tar.gz "https://files.phpmyadmin.net/phpMyAdmin/4.6.0/phpMyAdmin-4.6.0-all-languages.tar.gz"
-    tar -xf phpmyadmin.tar.gz
-    mv phpMyAdmin-4.6.0-all-languages database-admin
-    rm phpmyadmin.tar.gz
-  else
-    echo "PHPMyAdmin already installed."
-  fi
-  cp "/srv/config/phpmyadmin-config/config.inc.php" "/srv/www/default/database-admin/"
 }
 
 wpsvn_check() {
@@ -750,11 +677,7 @@ echo " "
 echo "Installing/updating wp-cli and debugging tools"
 
 wp_cli
-memcached_admin
-opcached_status
-webgrind_install
 php_codesniff
-phpmyadmin_setup
 
 network_check
 # Time for WordPress!

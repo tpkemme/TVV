@@ -5,6 +5,7 @@
 ## [CHANGELOG](./CHANGELOG.md)
 
 ## Version 0.1.0
+=======
 
 This is a variant of [Varying Vagrant Vagrants](https://github.com/Varying-Vagrant-Vagrants/VVV) with a couple of customizations specifically for a local development environment.  TVV is installed in the same way you would install [VVV](https://github.com/varying-vagrant-vagrants/vvv) and this setup assumes you are using the [VVV Site Wizard](https://github.com/bradp/vv) to create additional Wordpress installations.  
 
