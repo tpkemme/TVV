@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/topdown/VVV-Dashboard
+	branch = master
+	commit = 3dd8f66ef3d6a0fd3ceb7a0f38123e870606195e
+	parent = fe5c0d7a228ee0e34c519e098113bcc0eb3080d2
+	cmdver = 0.3.0
