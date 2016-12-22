@@ -1,6 +1,6 @@
 # TVV: Tyler's Varying Vagrant Vagrants Variant
 
-![image](http://gifyu.com/images/tvv.gif)
+[![tvv.gif](http://gifyu.com/images/tvv.gif)](http://gifyu.com/image/S9ZC)
 
 ## [CHANGELOG](./CHANGELOG.md)
 
