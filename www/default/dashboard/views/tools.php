@@ -23,9 +23,11 @@ if ( isset( $_GET['host'] ) ) {
 
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-sm-8 col-md-9 main">
+			<div class="col-sm-12 col-md-12 main">
 				<h4>Database Tools</h4>
 
+				<a href="./?page=tools&host=<?php echo $current_host; ?>" class="btn btn-primary">
+					<i class="fa fa-refresh"></i><span> Reload</span></a>
 				<a href="./?page=tools&host=<?php echo $current_host; ?>&action=db_backup" class="btn btn-success">
 					<i class="fa fa-database"></i><span> Backup</span></a>
 				<a href="./?page=tools&host=<?php echo $current_host; ?>&action=db_check" class="btn btn-primary">
@@ -40,6 +42,9 @@ if ( isset( $_GET['host'] ) ) {
 					<i class="fa fa-database"></i><span> Migrate</span></a>
 				<a href="./?page=tools&host=<?php echo $current_host; ?>&action=db_reset" class="btn btn-danger">
 					<i class="fa fa-database"></i><span> Reset</span></a>
+
+<!--				<a href="./?page=tools&host=--><?php //echo $current_host; ?><!--&action=create-plugin" class="btn btn-success pull-right">-->
+<!--					<i class="fa fa-gear"></i><span> Create Plugin</span></a>-->
 			</div>
 		</div>
 	</div>
@@ -48,19 +53,69 @@ if ( isset( $_GET['host'] ) ) {
 			<div class="col-sm-8 col-md-9 main">
 				<?php
 
-				$database_commands = new \vvv_dash\commands\database( $current_host );
+				if ( isset( $_GET['action'] ) && $_GET['action'] == 'create-plugin' ) {
+					// Maybe another time
 
-				if ( isset( $_GET['action'] ) ) {
-					$action = $_GET['action'];
+				} else {
 
-					switch ( $action ) {
+					$database_commands = new \vvv_dash\commands\database( $current_host );
 
-						case 'db_reset' :
-							echo '<h4>Database Reset</h4>';
-							if ( ! isset( $_GET['confirm'] ) ) {
-								include_once 'partials/database-reset.php';
-							} else {
-								$status = $database_commands->database_reset();
+					if ( isset( $_GET['action'] ) ) {
+						$action = $_GET['action'];
+
+						switch ( $action ) {
+
+							case 'db_reset' :
+								echo '<h4>Database Reset</h4>';
+								if ( ! isset( $_GET['confirm'] ) ) {
+									include_once 'partials/database-reset.php';
+								} else {
+									$status = $database_commands->database_reset();
+
+									$status = explode( "\n", $status );
+									$status = array_filter( $status );
+
+									foreach ( $status as $info ) {
+										echo '<div class="alert alert-success alert-dismissible" role="alert"><p>' . $info . '</p></div>';
+									} // end foreach
+									unset( $info );
+
+								}
+								break;
+
+							case 'db_backup' :
+								echo '<h4>Backup Database</h4>';
+
+								$command = new \vvv_dash\commands\database( $current_host );
+								$status  = $command->create_db_backup( $current_host );
+
+								if ( $status ) {
+									echo '<p>' . $status . '</p>';
+								}
+
+								break;
+
+							case 'db_migrate' :
+								echo '<h4>Migrate Database</h4>';
+
+								// Mostly Migrate stuff, come back to this
+								$database_commands->migrate();
+								// Migration Form
+								// @var $host
+								// @var $domain
+								if ( ! isset( $_GET['migrate'] ) && isset( $_GET['host'] ) ) {
+									include_once 'forms/db-migrate.php';
+								}
+
+								break;
+
+
+							case 'db_check' :
+								echo '<h4>Check Database</h4>';
+								$status = $database_commands->database_check();
+
+								// @ToDo find out why
+								echo '<p>Check database does not seem to work at this time</p>';
 
 								$status = explode( "\n", $status );
 								$status = array_filter( $status );
@@ -69,87 +124,43 @@ if ( isset( $_GET['host'] ) ) {
 									echo '<div class="alert alert-success alert-dismissible" role="alert"><p>' . $info . '</p></div>';
 								} // end foreach
 								unset( $info );
+								break;
 
-							}
-							break;
+							case 'db_optimize' :
+								echo '<h4>Optimize Database</h4>';
+								$status = $database_commands->database_optimize();
+								$status = explode( "\n", $status );
+								$status = array_filter( $status );
 
-						case 'db_backup' :
-							echo '<h4>Backup Database</h4>';
+								foreach ( $status as $info ) {
+									echo '<div class="alert alert-success alert-dismissible" role="alert"><p>' . $info . '</p></div>';
+								} // end foreach
+								unset( $info );
 
-							$command = new \vvv_dash\commands\database( $current_host );
-							$status  = $command->create_db_backup( $current_host );
+								break;
 
-							if ( $status ) {
-								echo '<p>' . $status . '</p>';
-							}
+							case 'db_repair' :
+								echo '<h4>Repair Database</h4>';
+								$status = $database_commands->database_repair();
+								$status = explode( "\n", $status );
+								$status = array_filter( $status );
 
-							break;
+								foreach ( $status as $info ) {
+									echo '<div class="alert alert-success alert-dismissible" role="alert"><p>' . $info . '</p></div>';
+								} // end foreach
+								unset( $info );
+								break;
 
-						case 'db_migrate' :
-							echo '<h4>Migrate Database</h4>';
-
-							// Mostly Migrate stuff, come back to this
-							$database_commands->migrate();
-							// Migration Form
-							// @var $host
-							// @var $domain
-							if ( ! isset( $_GET['migrate'] ) && isset( $_GET['host'] ) ) {
-								include_once 'forms/db-migrate.php';
-							}
-
-							break;
-
-
-						case 'db_check' :
-							echo '<h4>Check Database</h4>';
-							$status = $database_commands->database_check();
-
-							// @ToDo find out why
-							echo '<p>Check database does not seem to work at this time</p>';
-
-							$status = explode( "\n", $status );
-							$status = array_filter( $status );
-
-							foreach ( $status as $info ) {
-								echo '<div class="alert alert-success alert-dismissible" role="alert"><p>' . $info . '</p></div>';
-							} // end foreach
-							unset( $info );
-							break;
-
-						case 'db_optimize' :
-							echo '<h4>Optimize Database</h4>';
-							$status = $database_commands->database_optimize();
-							$status = explode( "\n", $status );
-							$status = array_filter( $status );
-
-							foreach ( $status as $info ) {
-								echo '<div class="alert alert-success alert-dismissible" role="alert"><p>' . $info . '</p></div>';
-							} // end foreach
-							unset( $info );
-
-							break;
-
-						case 'db_repair' :
-							echo '<h4>Repair Database</h4>';
-							$status = $database_commands->database_repair();
-							$status = explode( "\n", $status );
-							$status = array_filter( $status );
-
-							foreach ( $status as $info ) {
-								echo '<div class="alert alert-success alert-dismissible" role="alert"><p>' . $info . '</p></div>';
-							} // end foreach
-							unset( $info );
-							break;
-
-						case 'db_tables' :
-							echo '<h4>Database Tables</h4>';
-							$status = $database_commands->get_tables();
-							$status = explode( "\n", $status );
-							foreach ( $status as $info ) {
-								echo '<p>' . $info . '</p>';
-							} // end foreach
-							unset( $info );
-							break;
+							case 'db_tables' :
+								echo '<h4>Database Tables</h4>';
+								$status = $database_commands->get_tables();
+								$status = explode( "\n", $status );
+								foreach ( $status as $info ) {
+									echo '<p>' . $info . '</p>';
+								} // end foreach
+								unset( $info );
+								break;
+						}
 					}
 				}
 
@@ -158,13 +169,15 @@ if ( isset( $_GET['host'] ) ) {
 		</div>
 	</div>
 	<?php
-	$backups_table = $database_commands->get_host_backups_table();
+	if ( ! isset( $_GET['action'] ) ) {
+		$backups_table = $database_commands->get_host_backups_table();
 
-	if ( ! empty( $backups_table ) ) {
-		?><h4 class="title">Current Host Backups</h4>
+		if ( ! empty( $backups_table ) ) {
+			?><h4 class="title">Current Host Backups</h4>
 
-		<?php
-		echo $backups_table;
+			<?php
+			echo $backups_table;
+		}
 	}
 	?>
 

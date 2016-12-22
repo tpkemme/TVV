@@ -1,7 +1,7 @@
     /**
      * Custom styles for TVV dashboard
-     * @since    1.0.0
-     * @version  1.0.0
+     * @since    0.1.0
+     * @version  0.1.0
      */
 
     /**
@@ -167,6 +167,10 @@
 
     .navbar-nav > li > .dropdown-menu {
         background-color: #353535;
+    }
+
+    .dropdown-menu > li > a {
+        color: #ccc;
     }
 
     /**

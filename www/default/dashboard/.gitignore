@@ -5,3 +5,5 @@ notes.txt
 favorites/themes.txt
 favorites/plugins.txt
 .idea/
+blueprints/*.json
+views/testing.php
