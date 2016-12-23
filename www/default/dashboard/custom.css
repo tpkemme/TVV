@@ -53,6 +53,11 @@
         background: #222 !important;
     }
 
+    body button, .btn {
+        padding: 3px 7px !important;
+        border-radius: 15px !important;
+    }
+
     /**
      * Alerts, Warnings, Errors
      */
@@ -113,7 +118,7 @@
     }
 
     .red{
-        color: #cc1466  ;
+        color: #cc1466 !important;
     }
 
     span.label.label-danger {
@@ -145,8 +150,17 @@
         text-transform: uppercase;
     }
 
+    .alert button.close span {
+        top: -5px;
+        position: relative;
+    }
+
     .error-type{
         color: #c7254e;
+    }
+
+    .error_logs h3 {
+        margin: 0 !important;
     }
 
     /**
@@ -171,6 +185,10 @@
 
     .dropdown-menu > li > a {
         color: #ccc;
+    }
+
+    .sidebar .nav > li > a:hover {
+        color: #212121 !important;
     }
 
     /**
@@ -207,11 +225,34 @@
     }
 
     /**
-     * No scrolling for sites/hosts box
+     * Close button but site themes/plugins
+     */
+    a.close {
+        color: #c7254e;
+        opacity: 0.9;
+        text-shadow: -1px 1px 0px #000000;
+    }
+
+    a.close:hover {
+        color: #7d2e2e;
+        opacity: 1;
+    }
+
+    .hosts h4 span.red {
+        color: yellow !important;
+    }
+
+    /**
+     * Sites/hosts box
      */
     .sites {
         max-height: 100%;
         overflow: hidden;
+    }
+
+    table.sites {
+        border-width: 2px !important;
+        display: table;
     }
 
     /**
@@ -230,6 +271,20 @@
          border: solid 1px rgba(211,211,211,0.5);
     }
 
+    tr.highlight {
+        background: #4a4a4a;
+    }
+
+    .host span.highlight {
+        background: rgb(247, 255, 16);
+        color: #1a1a1a;
+    }
+
+    td.activated, .table-hover td.activated :hover, .table-hover tr:hover > td.activated, .table-striped > tbody > tr:nth-child(odd) > td.activated{
+        background: #39bb4b !important;
+    }
+
+
     /**
      * Input styles
      */
@@ -237,6 +292,23 @@
         background: #1a1a1a;
         color: #999;
         border-color: #43d6ca;
+    }
+
+    input {
+        border-style: inset;
+        border-width: 1pt;
+        padding: 5px;
+        border-color: #999999 !important;
+        margin: 0 5px;
+    }
+
+    input#text-search, input#backups-search {
+        margin: 0 !important;
+        border-color: #43d6ca !important;
+    }
+
+    #wrapper.toggled h4.title {
+        margin-bottom: 30px;
     }
 
     /**
