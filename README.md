@@ -81,5 +81,3 @@ After installing git-subrepo, you can update the VVV Dashboard whenever commits 
 2.  Pull changes from remote subrepo
 
         git subrepo pull www/default/dashboard
-
-

@@ -41,6 +41,7 @@ apt_package_check_list=(
   php-pear
   php7.0-imagick
   php7.0-memcache
+  php7.0-memcached
   php7.0-bcmath
   php7.0-curl
   php7.0-gd
@@ -61,8 +62,8 @@ apt_package_check_list=(
   # memcached is made available for object caching
   memcached
 
-  # mysql is the default database
-  mysql-server
+  # mariadb (drop-in replacement on mysql) is the default database
+  mariadb-server
 
   # other packages that come in handy
   imagemagick
@@ -155,6 +156,7 @@ profile_setup() {
   fi
 
   cp "/srv/config/subversion-servers" "/home/vagrant/.subversion/servers"
+  cp "/srv/config/subversion-config" "/home/vagrant/.subversion/config"
 
   if [[ ! -d "/home/vagrant/bin" ]]; then
     mkdir "/home/vagrant/bin"
@@ -166,6 +168,7 @@ profile_setup() {
   echo " * Copied /srv/config/bash_aliases                      to /home/vagrant/.bash_aliases"
   echo " * Copied /srv/config/vimrc                             to /home/vagrant/.vimrc"
   echo " * Copied /srv/config/subversion-servers                to /home/vagrant/.subversion/servers"
+  echo " * Copied /srv/config/subversion-config                 to /home/vagrant/.subversion/config"
   echo " * rsync'd /srv/config/homebin                          to /home/vagrant/bin"
 
   # If a bash_prompt file exists in the VVV config/ directory, copy to the VM.
@@ -218,13 +221,13 @@ package_check() {
 package_install() {
   package_check
 
-  # MySQL
+  # MariaDB/MySQL
   #
-  # Use debconf-set-selections to specify the default password for the root MySQL
-  # account. This runs on every provision, even if MySQL has been installed. If
-  # MySQL is already installed, it will not affect anything.
-  echo mysql-server mysql-server/root_password password "root" | debconf-set-selections
-  echo mysql-server mysql-server/root_password_again password "root" | debconf-set-selections
+  # Use debconf-set-selections to specify the default password for the root MariaDB
+  # account. This runs on every provision, even if MariaDB has been installed. If
+  # MariaDB is already installed, it will not affect anything.
+  echo mariadb-server-5.5 mysql-server/root_password password "root" | debconf-set-selections
+  echo mariadb-server-5.5 mysql-server/root_password_again password "root" | debconf-set-selections
 
   # Postfix
   #
@@ -434,7 +437,7 @@ phpfpm_setup() {
 }
 
 mysql_setup() {
-  # If MySQL is installed, go through the various imports and service tasks.
+  # If MariaDB/MySQL is installed, go through the various imports and service tasks.
   local exists_mysql
 
   exists_mysql="$(service mysql status)"
