@@ -571,7 +571,7 @@ function dir_to_array( $directory, $recursive = true, $listDirs = false, $listFi
 function vvv_dash_xdebug_status() {
 	?>
 	<p>
-		<small>Note: To profile, <code>xdebug_on</code> must be set.</small>
+<!--		<small>Note: To profile, <code>xdebug_on</code> must be set.</small>-->
 		<?php $xdebug = ( extension_loaded( 'xdebug' ) ? true : false );
 		if ( $xdebug ) {
 			?>

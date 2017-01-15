@@ -15,9 +15,6 @@
  * notices.php
  */
 
-//if($purge_status) {
-//	purge_status( $purge_status );
-//}
 
 if ( version_compare( VVV_DASH_VERSION, version_check(), '<' ) ) {
 	?>

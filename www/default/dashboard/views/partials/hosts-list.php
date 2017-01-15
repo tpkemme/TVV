@@ -16,8 +16,8 @@
  */
 ?>
 
-	<p class="red italic"><span class="bold">NOTE</span>: After creating or changing a host/site purge the Host Cache.
-	</p>
+<!--	<p class="red"><span class="bold">NOTE</span>: After creating or changing a host/site purge the Host Cache.-->
+<!--	</p>-->
 	<div id="search_container" class="input-group search-box">
 		<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
 		<input type="text" class="form-control search-input" id="text-search" placeholder="Live Search..." />
@@ -28,9 +28,10 @@
 	<table class="sites table table-responsive table-striped table-bordered table-hover">
 		<thead>
 		<tr>
-			<th>Debug Mode</th>
-			<th>Sites</th>
-			<th>WP Version</th>
+            <th>Sites<br/>
+                Debug Mode
+            </th>
+<!--			<th>WP Version</th>-->
 			<th>Actions</th>
 		</tr>
 		</thead>
@@ -57,30 +58,31 @@
 
 				?>
 				<tr>
+
+					<td class="host"><?php echo $array['host']; ?>
+
 					<?php if ( 'true' == $array['debug'] ) { ?>
-						<td><span class="label label-success">Debug On <i class="fa fa-check-circle-o"></i></span>
-						</td>
+                        <br/><span class="label label-success">Debug On <i class="fa fa-check-circle-o"></i></span>
 					<?php } else {
 						if ( $has_wp_config || $is_env ) {
 							?>
-							<td><span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span>
-							</td>
+                            <br/><span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span>
 							<?php
 						} else {
 							?>
-							<td><span class="label label-danger">NOT INSTALLED</td>
+                            <br/><span class="label label-danger">NOT INSTALLED</span></br>
 							<?php
 						}
 					} ?>
+                    </td>
 
-					<td class="host"><?php echo $array['host']; ?></td>
-					<td><?php
-						if ( isset( $array['version'] ) ) {
-							echo $array['version'];
-						} else {
-							echo 'N/A';
-						}
-						?></td>
+<!--                    <td>--><?php
+//						if ( isset( $array['version'] ) ) {
+//							echo $array['version'];
+//						} else {
+//							echo 'N/A';
+//						}
+//                    ?><!--</td>-->
 
 					<td>
 						<a class="btn btn-primary btn-xs" href="http://<?php echo $array['host']; ?>/" target="_blank">

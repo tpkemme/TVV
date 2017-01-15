@@ -19,8 +19,8 @@
 
 $host_info = ( is_array( $host_info ) ) ? $host_info : false;
 ?>
-	<p class="red italic"><span class="bold">NOTE</span>: After creating or changing a host/site purge the Host Cache.
-	</p>
+<!--	<p class="red"><span class="bold">NOTE</span>: After creating or changing a host/site purge the Host Cache.-->
+<!--	</p>-->
 	<div id="search_container" class="input-group search-box">
 		<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
 		<input type="text" class="form-control search-input" id="text-search" placeholder="Live Search..." />
@@ -31,10 +31,9 @@ $host_info = ( is_array( $host_info ) ) ? $host_info : false;
 	<table class="sites table table-responsive table-striped table-bordered table-hover">
 		<thead>
 		<tr>
-			<th>Debug Mode</th>
-			<th>Sites</th>
-			<th>WP Version</th>
-			<th>Actions</th>
+			<th>Site</th>
+			<th style="text-align: center;">Actions</th>
+            <th style="text-align: right;">Database</th>
 		</tr>
 		</thead>
 		<?php
@@ -44,36 +43,16 @@ $host_info = ( is_array( $host_info ) ) ? $host_info : false;
 			foreach ( $host_info as $key => $host ) {
 				?>
 				<tr id="<?php echo $host['domain']; ?>" data-id="<?php echo ++ $i; ?>">
-					<td><span class="handle"><i class="fa fa-arrows-v" aria-hidden="true"></i></span>
-						<?php if ( isset( $host['config_settings']['WP_DEBUG'] ) && $host['config_settings']['WP_DEBUG'] == 'true'
-						           && $host['wp_is_installed'] == 'true'
-						) { ?>
-							<span class="label label-success">Debug On <i class="fa fa-check-circle-o"></i></span>
-
-						<?php } else {
-							if ( isset($host['wp_is_installed']) && $host['wp_is_installed'] == 'true' ) {
-								?>
-								<span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span>
-								<?php
-							} elseif ( isset($host['wp_is_installed']) && $host['wp_is_installed'] == 'false' && $host['is_wp_site'] == 'false' ) {
-								?>
-								<span class="label label-warning">ARCHIVE</span>
-								<?php
-							} else {
-								?>
-								<span class="label label-danger">NOT INSTALLED</span>
-								<?php
-							}
-						} ?>
-					</td>
 					<td class="host"><?php
 
 						// @ToDO what the heck is this @ crap Suppressing errors is not acceptable. Not sure who put that there.
-						echo @$host['domain'];
+						?><h3 style="color:#cacaca;margin: 5px 0px;"><?php
+                        echo @$host['domain'];
+                        ?></h3><?php
 
 						if ( isset( $host['config_settings']['MULTISITE'] ) ) {
 							echo '<span class="label label-default pull-right sub-site-toggle"><i class="fa fa-server"></i> MS</span>';
-							
+
 							$sub_sites = $host_commands->get_sub_sites($host['hostname'], $host['wp_path']);
 							$sub_sites = (array) json_decode($sub_sites);
 
@@ -87,16 +66,38 @@ $host_info = ( is_array( $host_info ) ) ? $host_info : false;
 							}
 						}
 
-						?></td>
-					<td><?php
-						if ( isset( $host['wp_version'] ) ) {
-							echo $host['wp_version'];
-						} else {
-							echo 'N/A';
-						}
-						?></td>
+                    ?>
+                    <?php if ( isset( $host['config_settings']['WP_DEBUG'] ) && $host['config_settings']['WP_DEBUG'] == 'true'
+							&& $host['wp_is_installed'] == 'true'
+						) { ?>
+                            <span class="label label-success">Debug On <i class="fa fa-check-circle-o"></i></span>
 
-					<td>
+						<?php } else {
+							if ( isset($host['wp_is_installed']) && $host['wp_is_installed'] == 'true' ) {
+								?>
+                                <span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span>
+								<?php
+							} elseif ( isset($host['wp_is_installed']) && $host['wp_is_installed'] == 'false' && $host['is_wp_site'] == 'false' ) {
+								?>
+                                <span class="label label-warning">ARCHIVE</span>
+								<?php
+							} else {
+								?>
+                                <span class="label label-danger">NOT INSTALLED</span>
+								<?php
+							}
+						}
+						?>
+						<?php
+						if ( isset( $host['wp_version'] ) ) {
+							echo 'Wordpress Version: ' . $host['wp_version'];
+						} else {
+							echo 'Wordpress Version: N/A';
+						}
+						?>
+
+                    </td>
+					<td style="text-align: center;width: 48%;">
 						<?php if ( isset($host['wp_is_installed']) && ($host['wp_is_installed'] == 'true' || $host['wp_is_installed'] == 'false' && $host['is_wp_site'] == 'true' )) { ?>
 							<a class="btn btn-primary btn-xs" href="http://<?php echo $host['domain']; ?>/" target="_blank">
 								<i class="fa fa-external-link"></i> Visit </a>
@@ -138,6 +139,13 @@ $host_info = ( is_array( $host_info ) ) ? $host_info : false;
 								<i class="fa fa-exclamation-circle"></i><span> Errors</span></a>
 						<?php } ?>
 					</td>
+                    <td style="text-align: right;">
+                        <a class="php-my-admin" href="/database-admin/db_structure.php?server=1&db=<?php echo $host['hostname'] ?>"><img src="https://ucarecdn.com/73d6555a-e81f-4cb8-9ff1-dfca203eaa0c/"/></a>
+                        <a class="search-replace-db" href="/Search-Replace-DB-master/">
+                            <span>/</span>
+                            <span>it</span>
+                        </a>
+                    </td>
 				</tr>
 				<?php
 			}
