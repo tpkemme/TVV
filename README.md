@@ -1,5 +1,7 @@
 # TVV: Tyler's Varying Vagrant Vagrants Variant
 
+## Notice: this project was unecessarily complicated and has been replaced by this [repo here](https://github.com/tpkemme/VVV-Dashboard.git).
+
 ![TVV gif](http://g.recordit.co/sfgN4mDlZn.gif)
 
 ## [CHANGELOG](./CHANGELOG.md)
